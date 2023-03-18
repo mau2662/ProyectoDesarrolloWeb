@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>TechShop</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <header th:fragment="header">
+            <h1 style="text-align: center;background-color: black;color:white">TechShop</h1>
+            <hr/>
+            <nav class="nav">
+                <a th:href="@{/}" th:text="#{aplicacion.titulo}"class="logo nav-link" ></a>
+                <ul class="nav-menu">
+                    <li class="nav-menu-item">
+                        <a th:href="@{/cliente/listado}" th:text="#{aplicacion.clientes}" class="nav-menu-link nav-linlk">Clientes</a>
+                    </li>
+                    <li class="nav-menu-item">
+                        <a th:href="@{/categoria/listado}" th:text="#{aplicacion.categoria}" class="nav-menu-link nav-linlk">Categoria</a>
+                    </li>
+                    <li class="nav-menu-item">
+                        <a th:href="@{/articulo/listado}" th:text="#{aplicacion.articulo}"class="nav-menu-link nav-linlk">Articulos</a>
+                    </li>
+                </ul>
+            </nav>
+            
+        </header>  
+
+        <footer th:fragment="footer">            
+            <hr/>
+            <p style="text-align: center; background-color: yellow">&COPY; Derechos Reservados 2023</p>
+            <p th:text="#{aplicacion.footer}"></p>
+            <p th:text="#{aplicacion.telefono}"></p>
+            
+            <hr/>
+            <p>
+                <a th:href="@{/(lang=ES)}">ES</a>
+                <a th:href="@{/(lang=EN)}">EN</a>
+            </p>
+        </footer> 
+
+    </body>
+</html>
