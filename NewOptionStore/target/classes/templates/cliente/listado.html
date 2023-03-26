@@ -1,49 +1,17 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head>
+ <!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://wwww.thymeleaf.org" 
+      xmlns:sec="http://thymeleaft.org/extras/spring-security">
+    <head th:replace="layout/plantilla :: head">
         <title>New Option Store</title>
-        <meta charset="UTF-8"/>
     </head>
     <body>
-        <header th:replace="~{layout/plantilla :: header}"/>
-        <div class="contenido">
-            <h2>Listado de Clientes</h2>
-            <hr>
-            <a th:href="@{/cliente/nuevo}">Nuevo cliente</a>
+        <header th:replace="layout/plantilla :: header" />        
 
-            <div th:if="${clientes !=null and !clientes.empty}">
-                <table border="0">
-                    <thead>
-                        <tr>
-                            <th th:text="#{cliente.nombre}">Nombre</th>
-                            <th th:text="#{cliente.apellido}">Apellidos</th>
-                            <th th:text="#{cliente.correo}">Correo</th>
-                            <th th:text="#{cliente.telefono}">Teléfono</th>
-                            <th th:text="#{cliente.limite}">Limite</th>
-                            <th th:text="#{cliente.eliminar}">Eliminar</th>
-                            <th th:text="#{cliente.actualizar}">Actualizar</th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr> <th>Nombre</th> <th>Apellidos</th>
-                        <th>Correo</th> <th>Teléfono</th> <th>Límite</th> <th>Eliminar</th> <th>Modificar</th> </tr> </thead>
-                        <tr th:each="cliente : ${clientes}">
-                        <td th:text="${cliente.nombre}"></td> 
-                        <td th:text="${cliente.apellidos}"></td> 
-                        <td th:text="${cliente.correo}"></td>
-                        <td th:text="${cliente.telefono}"></td>
-                        <td th:text="${#numbers.format Decimal (cliente.limite,3,2)}" style="text-align: right"></td> <td><a th:href="@{/cliente/eliminar/} + ${cliente.idCliente}">Eliminar</a></td>
-                        <td><a th:href="@{/cliente/eliminar/} + ${cliente.idCliente}" th:text="#{accion.eliminar}">Eliminar</a></td>
-                        <td><a th:href="@{/cliente/modificar/} + ${cliente.idCliente}" th:text="#{accion.actualizar}">Modificar</a></td>
-                    </tbody>
-                </table>
-            </div>
+        <section th:replace="cliente/fragmentosCliente :: botonesEditar"/>
+        <section th:replace="cliente/fragmentosCliente :: agregarCliente"/> 
+        <section th:replace="cliente/fragmentosCliente :: listadoClientes"/>        
 
-            <div th:if="${clientes ==null or clientes.empty}">
-                <p th:text="#{cliente.no_mostrar}"> No hay clientes que mostrar</p>
-            </div>
-        </div>
-        <footer th:replace="~{layout/plantilla :: footer}"/>
+        <footer th:replace="layout/plantilla :: footer" />     
     </body>
 </html>
