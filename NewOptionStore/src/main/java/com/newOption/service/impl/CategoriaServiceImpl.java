@@ -10,33 +10,40 @@ import com.newOption.service.CategoriaService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
+
     @Autowired
     private CategoriaDao categoriaDao;
-    
+
     @Override
-    public List<Categoria> getCategorias(boolean activos){
-        var lista = (List<Categoria>)categoriaDao.findAll();
-        if(activos) {
-            lista.removeIf( e->!e.isActivo());
+    @Transactional(readOnly = true)
+    public List<Categoria> getCategorias(boolean activos) {
+        var lista = (List<Categoria>) categoriaDao.findAll();
+        if (activos) {
+            lista.removeIf(e -> !e.isActivo());
         }
         return lista;
     }
-    
+
     @Override
-    public void save(Categoria categoria){
-        categoriaDao.save(categoria);
+    @Transactional(readOnly = true)
+    public Categoria getCategoria(Categoria categoria) {
+        return categoriaDao.findById(categoria.getIdCategoria()).orElse(null);
     }
-    
+
     @Override
-    public void delete(Categoria categoria){
+    @Transactional(readOnly = false)
+    public void deleteCategoria(Categoria categoria) {
         categoriaDao.delete(categoria);
     }
+
     @Override
-    public Categoria getCategoria(Categoria categoria){
-        return categoriaDao.findById(categoria.getIdCategoria()).orElse(null);
-  }            
-  
+    @Transactional(readOnly = false)
+    public void saveCategoria(Categoria categoria) {
+        categoriaDao.save(categoria);
+    }
 }
+

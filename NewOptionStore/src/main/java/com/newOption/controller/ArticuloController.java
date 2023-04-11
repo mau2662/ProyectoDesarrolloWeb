@@ -6,54 +6,49 @@ package com.newOption.controller;
 
 import com.newOption.domain.Articulo;
 import com.newOption.service.ArticuloService;
-import com.newOption.service.CategoriaService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@Slf4j
+@RequestMapping("/articulo")
 public class ArticuloController {
     @Autowired
-    private ArticuloService articuloService;
-    @Autowired
-    private CategoriaService categoriaService;
+    ArticuloService articuloService;  
     
-    @GetMapping("/articulo/listado")
-    public String inicio(Model model){
-        var articulos = articuloService.getArticulos(false);
-        model.addAttribute("articullos",articulos);
+       @GetMapping("/listado")
+    public String inicio(Model model) {
+     //   var articulos = articuloService.getArticulos(false);
+     var articulos = articuloService.getArticulos(false);
+        model.addAttribute("articulos", articulos);
+        model.addAttribute("totalArticulos",articulos.size());        
         return "/articulo/listado";
     }
-    
-    @GetMapping("/articulo/nuevo")
-    public String nuevoArticulo(Articulo articulo, Model model){
-        var categorias = categoriaService.getCategorias(true);
-        model.addAttribute("categorias",categorias);
-        return "articulo/modificar";
-    }
-    
-    @PostMapping("/articulo/guardar")
-    public String guardarArticulo(Articulo articulo){
-        articuloService.save(articulo);
-        return "articulo/modificar";
-    }
-    
-    @GetMapping("/articulo/modificar/{idArticulo}")
-    public String modificarArticulo(Articulo articulo, Model model){
-        articulo = articuloService.getArticulo(articulo);
-        var categorias = categoriaService.getCategorias(true);
-        model.addAttribute("categorias",categorias);
-        model.addAttribute("articulo",articulo);
-        return "articulo/modificar";
-    }
-    
-    @GetMapping("/articulo/eliminar/{idArticulo}")
-    public String eliminarArticulo(Articulo articulo){
-        articuloService.delete(articulo);
+
+    @GetMapping("/eliminar/{idArticulo}")
+    public String eliminaArticulo(Articulo articulo) {
+        articuloService.deleteArticulo(articulo);
         return "redirect:/articulo/listado";
     }
+
+    @GetMapping("/nuevo")
+    public String nuevoArticulo(Articulo articulo) {
+        return "/articulo/modifica";
+    }
+    @PostMapping("/guardar")
+    public String guardaArticulo(Articulo articulo) {
+        articuloService.saveArticulo(articulo);
+        return "redirect:/articulo/listado";
+    }
+
+    @GetMapping("/modificar/{idArticulo}")
+    public String modificaArticulo(Articulo articulo, Model model) {
+        articulo = articuloService.getArticulo(articulo);
+        model.addAttribute("articulo", articulo);
+        return "/articulo/modifica";
+    }
 }
+

@@ -1,31 +1,44 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://thymeleaft.org/extras/spring-security">
-
-    <head th:replace="layout/plantilla :: head">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>TechShop</title>
+        <meta charset="UTF-8"/>
+    </head>
     <body>
-        <header th:replace="layout/plantilla :: header"/>
-        <div class="contenido">
-            <h2 th:text="#{index.titulo}">Nuestros Articulos</h2>
-            <div th:if="${articulos != null and !articulos.empty}"> <table border="1">
-                    <thead>
-                        <tr>
-                            <th th:text="#{articulo.descripcion}">Descripcion</th>
-                            <th th:text="#{articulo.precio}">Precio</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="articulo : ${articulos}">
-                            <td th:text="${articulo.descripcion}"></td>
-                            <td th:text="${#numbers.formatDecimal(articulo.precio,3,2)}" style="text-align: right"></td>
-                                <td><a th:href="@{/carrito/agregar/} + ${articulo.idArticulo}" th:text="#{accion.agregar}">Agregar</a></td>
-                        </tr> </tbody>
-                </table>
-            </div>
-            <div th:if="${articulos == null or articulos.empty}">
-                <p th:text="#{articulo.no_mostrar}">No tenemos articulos que mostrar...</p>
+        <header th:replace="~{layout/plantilla :: header}"/>
+
+        <div class="container">
+            <h2>[[#{index.nuestrosArticulos}]]</h2>
+            <div class="row row-cols-3">
+                <div class="card" th:each="articulo : ${articulos}">
+                    <div class="card-body">
+                        <figure>
+                            <div class="text-center">
+                                <img th:src="${articulo.imagen}" alt="foto" height="200px"/>
+                                <figcaption>
+                                    <h6 class="card-subtitle">[[${articulo.descripcion}]]</h6>
+                                </figcaption>
+                            </div>
+                        </figure>
+                        <h6 class="card-subtile mb-2 text-muted text-center">
+                            ¢[[${#numbers.formatDecimal(articulo.precio, 1, 'DEFAULT', 2, 'DEFAULT')}]]  
+                            <a class="card-link" th:href="@{carrito/agregar/} + ${articulo.idArticulo}">
+                                <i class="fas fa-cart-plus"></i>
+                            </a>
+                        </h6>
+                        <a class="card-link" data-bs-toggle="collapse" href="#collapseDetalle" 
+                           role="button" aria-expanded="false" aria-controls="collapseDetalle">
+                            Detalles</a>
+                        <div class="collapse" id="collapseDetalle">
+                            <div class="card-text">
+                                [[${articulo.detalle}]]
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <footer th:replace="layout/plantilla :: footer"/>
+        <footer th:replace="~{layout/plantilla :: footer}"/>
     </body>
 </html>
