@@ -1,4 +1,3 @@
-
 package com.newOption;
 
 import java.util.Locale;

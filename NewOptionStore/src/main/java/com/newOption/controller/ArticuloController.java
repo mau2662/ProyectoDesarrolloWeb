@@ -21,7 +21,7 @@ public class ArticuloController {
     
        @GetMapping("/listado")
     public String inicio(Model model) {
-     //   var articulos = articuloService.getArticulos(false);
+     
      var articulos = articuloService.getArticulos(false);
         model.addAttribute("articulos", articulos);
         model.addAttribute("totalArticulos",articulos.size());        
